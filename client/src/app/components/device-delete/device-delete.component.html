@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-card-title>Deleting Device</mat-card-title>
+    <div class="container">
+        <mat-form-field>
+            <mat-label>Id</mat-label>
+            <textarea matInput [value]="data.id" readonly></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Serial Number</mat-label>
+            <textarea matInput [value]="data.serialNumber" readonly></textarea>
+        </mat-form-field>                 
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <textarea matInput [value]="data.name" readonly></textarea>
+        </mat-form-field>                 
+    </div>
+    <div class="action-button">
+        <button mat-flat-button (click)="onDelete()" color="primary">Delete</button>
+        <button mat-flat-button (click)="onCancel()" color="primary">Cancel</button>
+    </div>
+</mat-card>

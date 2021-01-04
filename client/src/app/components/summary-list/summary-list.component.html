@@ -1,0 +1,42 @@
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="summaries$ | async">
+        <ng-container matColumnDef="patientId">
+            <th mat-header-cell *matHeaderCellDef>Patient No.</th>
+            <td mat-cell *matCellDef="let element"> {{element.patientId}} </td>
+        </ng-container>        
+        <ng-container matColumnDef="patientName">
+            <th mat-header-cell *matHeaderCellDef>Patient Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.patientName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="deviceId">
+            <th mat-header-cell *matHeaderCellDef>Device No.</th>
+            <td mat-cell *matCellDef="let element"> {{element.deviceId}} </td>
+        </ng-container>        
+        <ng-container matColumnDef="deviceSerialNumber">
+            <th mat-header-cell *matHeaderCellDef>Device Serial Number</th>
+            <td mat-cell *matCellDef="let element"> {{element.deviceSerialNumber}} </td>
+        </ng-container>
+        <ng-container matColumnDef="deviceName">
+            <th mat-header-cell *matHeaderCellDef>Device Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.deviceName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="currentHR">
+            <th mat-header-cell *matHeaderCellDef>Current HR</th>
+            <td mat-cell *matCellDef="let element"> {{element.currentHR}} </td>
+        </ng-container> 
+        <ng-container matColumnDef="currentRR">
+            <th mat-header-cell *matHeaderCellDef>Current RR</th>
+            <td mat-cell *matCellDef="let element"> {{element.currentRR}} </td>
+        </ng-container>
+        <ng-container matColumnDef="avgHR">
+            <th mat-header-cell *matHeaderCellDef>Avg HR</th>
+            <td mat-cell *matCellDef="let element"> {{element.avgHR}} </td>
+        </ng-container> 
+        <ng-container matColumnDef="avgRR">
+            <th mat-header-cell *matHeaderCellDef>Avg RR</th>
+            <td mat-cell *matCellDef="let element"> {{element.avgRR}} </td>
+        </ng-container>                
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
