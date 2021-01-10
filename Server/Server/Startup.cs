@@ -56,9 +56,10 @@ namespace Server
             });
 
             services.AddDbContext<HospitalDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IDeviceService, DeviceService>();
+            services.AddScoped<IPatientService, PatientService>();
             services.AddHostedService<MqttHostedService>();
 
             services.AddCors(options =>
@@ -71,14 +72,8 @@ namespace Server
                     .Build());
             });
 
-            services.AddDistributedMemoryCache();
-
-            services.AddSession();
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddSignalR();
-
             services.AddControllers();            
         }
 
@@ -101,23 +96,18 @@ namespace Server
             {
                 var code = context.Request.Query["code"];
                 logger.LogError(StringHelper.HttpErrorStatus + code);
-                await context.Response.WriteAsync($"Err: {code}");
+                await context.Response.WriteAsync($"Status code: {code}");
             }));
 
             app.UseHttpsRedirection();
-
             app.UseCors("CorsPolicy");
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseSession();            
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapHub<HospitalHub>("/hospital");
+                endpoints.MapControllers();                
             });
         }
     }

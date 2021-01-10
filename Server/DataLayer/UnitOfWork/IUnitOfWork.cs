@@ -1,12 +1,16 @@
-﻿using DataLayer.Repositories;
+﻿using DataLayer.Entities;
+using DataLayer.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Threading.Tasks;
 
 namespace DataLayer.UnitOfWork
 {
-    public interface IUnitOfWork<TEntity> where TEntity : class
+    public interface IUnitOfWork
     {
-        IGenericRepository<TEntity> Entities { get; }
+        IGenericRepository<Patient> Patients { get; }
+        IGenericRepository<Device> Devices { get; }
+        IGenericRepository<Measurement> Measurements { get; }
+        ICustomRepository CustomRepository { get; }
         IDbContextTransaction BeginTransaction();
         void Dispose();
         Task SaveAsync();

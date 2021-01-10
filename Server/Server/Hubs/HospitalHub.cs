@@ -8,9 +8,9 @@ namespace Server.Hubs
     /// </summary>
     public class HospitalHub : Hub
     {
-        public async Task SendAsync(int patientId, string message)
+        public async Task SendAsync(string patientIdStr, string message)
         {
-            await Clients.All.SendAsync(patientId.ToString(), message);
+            await Clients.All.SendAsync(patientIdStr, message);
         }
     }
 }

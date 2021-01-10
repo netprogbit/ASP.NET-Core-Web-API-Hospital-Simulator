@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Server.Middlewares
 {
+    /// <summary>
+    /// Custom exception middleware
+    /// </summary>
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Server.Helpers;
 using Server.DTOs;
 using Server.Services;
-using Microsoft.AspNetCore.Http;
 using AutoMapper;
 
 namespace Server.Controllers
@@ -50,16 +49,12 @@ namespace Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(PatientDto patientDto)
         {
-            TokenDto tokenResult = await _authService.LoginAsync(patientDto.Email, patientDto.Password);
+            AuthDto authDto = await _authService.LoginAsync(patientDto.Email, patientDto.Password);
 
-            if (tokenResult == null)
+            if (authDto == null)
                 return NotFound(new { message = StringHelper.UserNotFound });
 
-            //Save access data in session store
-            HttpContext.Session.SetString("patientId", tokenResult.PatientId.ToString());
-            HttpContext.Session.SetString("token", tokenResult.Token);
-            HttpContext.Session.SetString("role", tokenResult.Role);
-            return Ok(tokenResult);
+            return Ok(authDto);
         }        
     }
 }

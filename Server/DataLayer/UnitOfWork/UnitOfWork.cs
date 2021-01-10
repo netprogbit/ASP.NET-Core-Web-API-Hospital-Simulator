@@ -1,4 +1,5 @@
 ﻿using DataLayer.DbContexts;
+using DataLayer.Entities;
 using DataLayer.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.UnitOfWork
 {
-    public class UnitOfWork<TEntity> : IDisposable, IUnitOfWork<TEntity> where TEntity : class
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private readonly HospitalDbContext _db;
 
@@ -15,8 +16,17 @@ namespace DataLayer.UnitOfWork
             _db = db;
         }
 
-        private IGenericRepository<TEntity> _genericRepository;
-        public IGenericRepository<TEntity> Entities => _genericRepository ?? (_genericRepository = new EFGenericRepository<TEntity>(_db));
+        private IGenericRepository<Patient> _patientRepository;
+        public IGenericRepository<Patient> Patients => _patientRepository ?? (_patientRepository = new EFGenericRepository<Patient>(_db));
+
+        private IGenericRepository<Device> _deviceRepository;
+        public IGenericRepository<Device> Devices => _deviceRepository ?? (_deviceRepository = new EFGenericRepository<Device>(_db));
+
+        private IGenericRepository<Measurement> _measurementRepository;
+        public IGenericRepository<Measurement> Measurements => _measurementRepository ?? (_measurementRepository = new EFGenericRepository<Measurement>(_db));
+
+        private ICustomRepository _customRepository;
+        public ICustomRepository CustomRepository => _customRepository ?? (_customRepository = new CustomRepository(_db));
 
         public IDbContextTransaction BeginTransaction()
         {

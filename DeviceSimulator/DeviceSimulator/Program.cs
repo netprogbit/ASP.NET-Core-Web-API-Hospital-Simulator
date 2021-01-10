@@ -12,10 +12,10 @@ namespace DeviceSimulator
     {        
         private static readonly string _host = "broker.hivemq.com";
         private static readonly int _port = 1883;
-        private static readonly string _clientId = "yuriiprogm";
+        private static readonly string _clientId = "yuriipubli";
         private static readonly string _topic = "/vitalerter/yurii/vitals";
         private static readonly string _serialNumber = "12345";
-        
+        private static readonly int _publishPeriodSec = 1;
 
         static void Main(string[] args)
         {
@@ -32,14 +32,17 @@ namespace DeviceSimulator
         {
             try
             {
-                var options = new MqttClientOptionsBuilder()
-                                .WithTcpServer(_host, _port)
-                                .Build();
+                var options = new MqttClientOptionsBuilder()                                                                                    
+                    .WithTcpServer(_host, _port)
+                    .WithClientId(_clientId)
+                    .Build();
 
                 await mqttClient.ConnectAsync(options);
 
-                Random rng = new Random();
+                // Publishing message
 
+                Random rng = new Random();
+                
                 while (true)
                 {
                     int hr = rng.Next(50, 121);
@@ -47,17 +50,17 @@ namespace DeviceSimulator
 
                     MessageDto messageDto = new MessageDto { SerialNumber = _serialNumber, HR = hr, RR = rr };
 
-                    string messageJson = JsonSerializer.Serialize<MessageDto>(messageDto);
+                    string jsonMessage = JsonSerializer.Serialize<MessageDto>(messageDto);
 
                     var message = new MqttApplicationMessageBuilder()
-                                .WithTopic(_topic)
-                                .WithPayload(messageJson)
-                                .WithAtLeastOnceQoS()
-                                .WithRetainFlag()
-                                .Build();
+                        .WithTopic(_topic)
+                        .WithPayload(jsonMessage)
+                        .WithAtLeastOnceQoS()
+                        .WithRetainFlag()
+                        .Build();
 
                     await mqttClient.PublishAsync(message);
-                    await Task.Delay(1000);
+                    await Task.Delay(new TimeSpan(0, 0, _publishPeriodSec));
                 }
             }
             catch (Exception ex)
@@ -71,7 +74,6 @@ namespace DeviceSimulator
             try
             {
                 await mqttClient.DisconnectAsync();
-
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ namespace Server.Services
 {
     public interface IAuthService
     {
-        Task<TokenDto> LoginAsync(string email, string password);
+        Task<AuthDto> LoginAsync(string email, string password);
         Task<bool> RegisterAsync(Patient patient);
     }
 }

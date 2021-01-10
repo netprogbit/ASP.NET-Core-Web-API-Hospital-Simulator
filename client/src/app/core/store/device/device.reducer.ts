@@ -8,6 +8,12 @@ export const deviceReducer = (state = initialDeviceState, action: DeviceActions)
                 ...state,
                 devices: action.payload,
             };
+        }
+        case DeviceActionTypes.ChangeMeasurement: {
+            return {
+                ...state,
+                measurement: action.payload,
+            };
         }                                       
         default:
             return state;

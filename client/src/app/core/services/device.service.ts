@@ -4,16 +4,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IDevice } from '../models/device.interface';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   public getDevices(): Observable<IDevice[]> {
-    const devicesUrl = `${environment.apiUrl + environment.apiDevices}`;
+    const patientId = this.authService.getPatientId(); 
+    const devicesUrl = `${environment.apiUrl + environment.apiDevices + patientId}`;       
     return this.httpClient.get<IDevice[]>(devicesUrl).pipe(
       mergeMap(data => {
         return of(data);
@@ -23,7 +25,8 @@ export class DeviceService {
 
   public add(id: number, serialNumber: string, name: string): Observable<any> {
     const deviceSubmitUrl = `${environment.apiUrl + environment.apiDevice}`;
-    const body = { id, serialNumber, name };
+    const patientId = this.authService.getPatientId();
+    const body = { id, patientId, serialNumber, name };
     return this.httpClient.post(deviceSubmitUrl, body);
   }
 

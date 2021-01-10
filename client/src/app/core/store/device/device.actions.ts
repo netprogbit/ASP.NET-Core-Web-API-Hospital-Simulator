@@ -1,14 +1,16 @@
 import { Action } from '@ngrx/store';
 import { IDevice } from '../../models/device.interface';
+import { IMeasurement } from '../../models/measurement.interface';
 
 export enum DeviceActionTypes {
-    GetDevices = '[User] Get Devices',
-    GetDevicesSuccess = '[User] Get Devices Success',
-    AddDevice = '[User] Add Device',
-    AddDeviceSuccess = '[User] Add Device Success',        
-    SubmitDevice = '[User] Submit Device',
-    SubmitDeviceSuccess = '[User] Submit Device Success',           
-    DeleteDevice = '[User] Delete Device',
+    GetDevices = '[Device] Get Devices',
+    GetDevicesSuccess = '[Device] Get Devices Success',
+    AddDevice = '[Device] Add Device',
+    AddDeviceSuccess = '[Device] Add Device Success',        
+    SubmitDevice = '[Device] Submit Device',
+    SubmitDeviceSuccess = '[Device] Submit Device Success',           
+    DeleteDevice = '[Device] Delete Device',
+    ChangeMeasurement = '[Device] Change Measurement',
 }
 
 export class GetDevices implements Action {
@@ -45,6 +47,11 @@ export class DeleteDevice implements Action {
     constructor(public payload: number) { }
 }
 
+export class ChangeMeasurement implements Action {
+    public readonly type = DeviceActionTypes.ChangeMeasurement;
+    constructor(public payload: IMeasurement) { }
+}
+
 export type DeviceActions =
     | GetDevices
     | GetDevicesSuccess
@@ -53,3 +60,4 @@ export type DeviceActions =
     | SubmitDevice
     | SubmitDeviceSuccess
     | DeleteDevice
+    | ChangeMeasurement

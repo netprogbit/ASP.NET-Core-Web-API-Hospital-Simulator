@@ -12,7 +12,7 @@ export class SummaryService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getDevices(): Observable<ISummary[]> {
+  public getSummaries(): Observable<ISummary[]> {
     const summariesUrl = `${environment.apiUrl + environment.apiSummaries}`;
     return this.httpClient.get<ISummary[]>(summariesUrl).pipe(
       mergeMap(data => {

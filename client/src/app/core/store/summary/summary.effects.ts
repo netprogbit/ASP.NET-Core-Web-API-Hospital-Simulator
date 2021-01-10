@@ -17,10 +17,10 @@ export class SummaryEffects {
     getSumaries$ = this.actions$.pipe(
         ofType<GetSummaries>(SummaryActionTypes.GetSummaries),        
         switchMap(() => {
-            return this.deviceService.getDevices();
+            return this.deviceService.getSummaries();
         }),
-        switchMap((devices: ISummary[]) => {
-            return of(new GetSummariesSuccess(devices));
+        switchMap((summaries: ISummary[]) => {
+            return of(new GetSummariesSuccess(summaries));
         })
     );
           

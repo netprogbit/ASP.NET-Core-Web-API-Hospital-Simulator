@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 import { ISummary } from '../../models/summary.interface';
 
 export enum SummaryActionTypes {
-    GetSummaries = '[User] Get Summaries',
-    GetSummariesSuccess = '[User] Get Summaries Success',    
+    GetSummaries = '[Summary] Get Summaries',
+    GetSummariesSuccess = '[Summary] Get Summaries Success',    
 }
 
 export class GetSummaries implements Action {

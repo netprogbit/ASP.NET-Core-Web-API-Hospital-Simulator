@@ -7,13 +7,13 @@ export interface IAppState {
     router?: RouterReducerState,
     auth: IAuthState,    
     device: IDeviceState,
-    sumary: ISummaryState    
+    summary: ISummaryState    
 }
 
 export const initialAppState: IAppState = {
     auth: initialAuthState,
     device: initialDeviceState,
-    sumary: initialSummaryState,    
+    summary: initialSummaryState,    
 };
 
 export function getInitialState(): IAppState {

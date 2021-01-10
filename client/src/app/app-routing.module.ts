@@ -21,9 +21,13 @@ const routes: Routes = [
         loadChildren: () => import('./components/device-list/device-list.module').then(m => m.DeviceListModule)
       },
       { 
+        path: 'devices/:id', 
+        loadChildren: () => import('./components/device-detail/device-detail.module').then(m => m.DeviceDetailModule)
+      },
+      { 
         path: 'summaries',
         canActivate: [AdminGuard], 
-        loadChildren: () => import('./components/device-list/device-list.module').then(m => m.DeviceListModule)
+        loadChildren: () => import('./components/summary-list/summary-list.module').then(m => m.SummaryListModule)
       },      
     ]
   }, 

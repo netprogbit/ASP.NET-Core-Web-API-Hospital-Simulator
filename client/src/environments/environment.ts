@@ -4,15 +4,16 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:50001/',
+  apiUrl: 'http://localhost:50001/',  
+  apiHospital: 'hospital/',  
   apiRegister: 'api/auth/register/',
   apiLogin: 'api/auth/login/',
   apiPatient: 'api/patient/',
-  apiPatients: 'api/user/patients/',
+  apiPatients: 'api/patient/patients/',
+  apiSummaries: 'api/patient/summaries/',
   apiDevice: 'api/device/',
-  apiDevices: 'api/device/devices/',
-  apiSummaries: 'api/summary/summaries/',
-  apiErrorLog: 'api/error/log',
+  apiDevices: 'api/device/devices/',  
+  apiErrorLog: 'api/error/log/',
 };
 
 /*

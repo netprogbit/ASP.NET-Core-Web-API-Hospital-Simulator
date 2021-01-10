@@ -13,7 +13,7 @@ import { summaries } from 'src/app/core/store/summary/summary.selectors';
 })
 export class SummaryListComponent implements OnInit {
 
-  public displayedColumns: string[] = ['patientId', 'patientName', 'deviceId', 'deviceSerialNumber', 'deviceName', 'currentHR', 'currentRR', 'avgHR', 'avgRR', 'actions'];    
+  public displayedColumns: string[] = ['patientId', 'patientName', 'deviceId', 'deviceSerialNumber', 'deviceName', 'currentHR', 'currentRR', 'avgHR', 'avgRR'];    
   public summaries$: Observable<ISummary[]> = this.store.pipe(select(summaries));
 
   constructor(private store: Store<IAppState>) { }

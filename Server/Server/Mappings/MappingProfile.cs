@@ -12,6 +12,7 @@ namespace Server.Mappings
             CreateMap<DeviceDto, Device>();
             CreateMap<Patient, PatientDto>();
             CreateMap<PatientDto, Patient>();
+            CreateMap<Summary, SummaryDto>();            
         }
     }
 }

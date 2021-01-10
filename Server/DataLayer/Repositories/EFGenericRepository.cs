@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -20,6 +21,11 @@ namespace DataLayer.Repositories
         public async Task<IEnumerable<TEntity>> FindAllAsync()
         {
             return await _dbSet.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public async Task<TEntity> FindAsync(int id)

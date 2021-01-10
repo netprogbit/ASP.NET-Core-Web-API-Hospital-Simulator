@@ -9,5 +9,5 @@ export const appReducers: ActionReducerMap<IAppState> = {
     router: routerReducer,
     auth: authReducer,    
     device: deviceReducer,
-    sumary: summaryReducer    
+    summary: summaryReducer    
 };

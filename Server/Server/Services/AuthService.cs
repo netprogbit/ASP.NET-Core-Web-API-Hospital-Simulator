@@ -8,7 +8,6 @@ using Server.Settings;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.ExceptionServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +20,10 @@ namespace Server.Services
     public class AuthService : IAuthService
     {
         private readonly AppSettings _appSettings;
-        private readonly IUnitOfWork<Patient> _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly string _salt;
 
-        public AuthService(IOptions<AppSettings> appSettings, IUnitOfWork<Patient> unitOfWork)
+        public AuthService(IOptions<AppSettings> appSettings, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _appSettings = appSettings.Value;
@@ -35,7 +34,7 @@ namespace Server.Services
         {
             // Check if the user exists with this email
 
-            Patient candidate = await _unitOfWork.Entities.FindAsync(u => u.Email == patient.Email);
+            Patient candidate = await _unitOfWork.Patients.FindAsync(u => u.Email == patient.Email);
 
             if (candidate != null)
                 return false;
@@ -43,31 +42,16 @@ namespace Server.Services
             patient.Password = GetPasswordHash(patient.Password, _salt);
             patient.DateTime = DateTime.UtcNow;
             patient.Role = "user";
-
-            // DB Transaction
-            using (var dbContextTransaction = _unitOfWork.BeginTransaction())
-            {
-                try
-                {
-                    await _unitOfWork.Entities.CreateAsync(patient);
-                    await _unitOfWork.SaveAsync();
-                    dbContextTransaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    dbContextTransaction.Rollback();  // Rollbacking transaction                      
-                    ExceptionDispatchInfo.Capture(ex).Throw();
-                }
-            }
-
+            await _unitOfWork.Patients.CreateAsync(patient);
+            await _unitOfWork.SaveAsync();
             return true;
         }
 
-        public async Task<TokenDto> LoginAsync(string email, string password)
+        public async Task<AuthDto> LoginAsync(string email, string password)
         {
             // Check if the user exists with this email and password
 
-            Patient candidate = await _unitOfWork.Entities.FindAsync(u => u.Email == email && u.Password == GetPasswordHash(password, _salt));
+            Patient candidate = await _unitOfWork.Patients.FindAsync(u => u.Email == email && u.Password == GetPasswordHash(password, _salt));
 
             if (candidate == null)
                 return null;
@@ -89,8 +73,7 @@ namespace Server.Services
             );
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-
-            return new TokenDto { PatientId = candidate.Id, Token = token, Role =candidate.Role };
+            return new AuthDto { PatientId = candidate.Id, Token = token, Role =candidate.Role };
         }
 
         // Password encription

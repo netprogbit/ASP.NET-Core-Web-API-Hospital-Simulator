@@ -12,6 +12,8 @@ namespace DataLayer.Entities
         public Patient Patient { get; set; }
         public string SerialNumber { get; set; }
         public string Name { get; set; }
+        public int BufferStartPtr { get; set; }
+        public int BufferCurrentPtr { get; set; }
         public List<Measurement> Measurements { get; set; }
     }
 }

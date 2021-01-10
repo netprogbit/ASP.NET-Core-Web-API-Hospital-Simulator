@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using DataLayer.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs;
 using Server.Helpers;
 using Server.Services;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,7 +13,7 @@ namespace Server.Controllers
     /// <summary>
     /// Device actions
     /// </summary>
-    /// [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DeviceController : ControllerBase
@@ -29,13 +28,13 @@ namespace Server.Controllers
         }
 
         // <summary>
-        /// Get device completely
-        /// </summary>
-        [HttpGet("devices")]
-        public async Task<IEnumerable<DeviceDto>> FindAllDevices()
+        /// Get devices
+        /// </summary>        
+        [HttpGet("devices/{patientId:int}")]
+        public async Task<IEnumerable<DeviceDto>> FindAll(int patientId)
         {
-            var devices = await _deviceService.FindAllAsync();
-            return _mapper.Map<List<DeviceDto>>(devices);
+            var devices = await _deviceService.FindAllAsync(patientId);
+            return _mapper.Map<IEnumerable<DeviceDto>>(devices);
         }            
 
         /// <summary>
@@ -46,7 +45,6 @@ namespace Server.Controllers
         public async Task<IActionResult> Add(DeviceDto deviceDto)
         {
             var device = _mapper.Map<Device>(deviceDto);
-            device.PatientId = Convert.ToInt32(HttpContext.Session.GetString("patientId"));
             bool isExisted = await _deviceService.AddAsync(device);
 
             if (!isExisted)

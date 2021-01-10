@@ -6,9 +6,9 @@ namespace Server.Services
 {
     public interface IDeviceService
     {
+        Task<IEnumerable<Device>> FindAllAsync(int patientId);
         Task<bool> AddAsync(Device device);
-        Task UpdateAsync(Device device);
-        Task<List<Device>> FindAllAsync();
+        Task UpdateAsync(Device device);        
         Task RemoveAsync(int id);
     }
 }

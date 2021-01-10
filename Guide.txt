@@ -1,0 +1,23 @@
+Hospital simulator training progect
+
+MS SQL Server must be installed to work the Server project.
+
+For the Client project to work, install node-modules.
+
+Run the Server, Client, and DeviceSimulator projects
+
+Using the Client project do the following:
+
+	- Register a new patient
+
+	- Sign in using the patient data
+
+	- Add new device on the Home page
+
+	- To see real time measurement, click on "Show Measurement" on the corresponding device
+
+	- In order to get the patient summary, you should Sign in using following administrator data to show the resume menu:
+
+		Email:	admin@hospital.com
+
+		Password: 111111
